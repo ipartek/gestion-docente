@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/jee
+     http://www.springframework.org/schema/jee/spring-jee.xsd">
+	
+	<bean id="databaseProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:/database/database.properties" />
+	</bean>
+		<bean id="aplicationProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:/constantes/constantes.properties" />
+	</bean>
+	<bean name="mysqlDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${mysql.driver}" />
+		<property name="url" value="${mysql.url}" />
+		<property name="username" value="${mysql.user}" />
+		<property name="password" value="${mysql.pass}" />
+	</bean>	
+	<bean id="alumnoDaoImp" class="com.ipartek.formacion.dbms.dao.AlumnoDAOImp">
+		<property name="dataSource" ref="mysqlDataSource"/>
+	</bean>
+	<bean id="alumnoServiceImp" class="com.ipartek.formacion.service.AlumnoServiceImp"/>
+		
+ </beans>

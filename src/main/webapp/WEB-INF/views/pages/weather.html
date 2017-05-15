@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tiempo Meteorológico en Tu Ciudad</title>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+	<header><h1>Ejemplo de Cliente con Servicio Metereologico</h1></header>
+	<main>
+		<section id="today">
+			<header><h2></h2></header>
+			<div>
+				<img src="" alt="" title="">
+			</div>
+		</section>
+		<section id="tomorrow">
+			<header><h2></h2></header>
+			<div>
+				<img src="" alt="" title="">
+			</div>
+		</section>
+	</main>
+	<footer>
+		Ipartek S. Coop. 
+	</footer>
+</body>
+<script>
+const url ="http://api.wunderground.com/api/28aa9696eaf0253b/geolookup/conditions/forecast/q/Spain/Bilbao.json";
+var forecastDays;
+jQuery(document).ready(function($) {
+	  $.ajax({
+	  url : url,
+	  dataType : "jsonp",
+	  success : function(parsed_json) {
+		forecastDays= parsed_json.forecast.txt_forecast.forecastday;
+		console.log(forecastDays[0]);
+			$("#today h2").text(forecastDays[0].title);
+			$("#today img").attr("src",forecastDays[0].icon_url);
+			$("#today img").attr("alt",forecastDays[0].icon);
+			
+			var txt =forecastDays[0].fcttext_metric;
+			$("#today div").append("<p>"+txt+"</p>");
+	  }
+  });
+
+
+	  
+});
+</script>
+</html>

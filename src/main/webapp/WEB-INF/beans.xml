@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/jee
+     http://www.springframework.org/schema/jee/spring-jee.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<bean id="databaseProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		  <property name="locations">
+	       		<list>
+	           		<value>classpath:/database/database.properties</value>
+				</list>
+    	   </property>
+	</bean>
+	<bean name="mysqlDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${mysql.driver}" />
+		<property name="url" value="${mysql.url}" />
+		<property name="username" value="${mysql.user}" />
+		<property name="password" value="${mysql.pass}" />
+	</bean>	
+	<bean id="alumnoDaoImp" class="com.ipartek.formacion.dbms.dao.AlumnoDAOImp">
+		<property name="dataSource" ref="mysqlDataSource"/>
+	</bean>
+	<bean id="profesorDaoImp" class="com.ipartek.formacion.dbms.dao.ProfesorDAOImp">
+		<property name="dataSource" ref="mysqlDataSource"/>
+	</bean>
+		<bean id="clienteDaoImp" class="com.ipartek.formacion.dbms.dao.ClienteDAOImp">
+		<property name="dataSource" ref="mysqlDataSource"/>
+	</bean>
+	<!-- 
+	<bean id="misCostantes"
+      class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+	  <property name="locations">
+	    <list>
+	      <value>classpath*:constantes/costantes.properties</value>
+	    </list>
+	  </property>
+	</bean>
+	 -->
+
+   <bean id="messageSource"
+      class="org.springframework.context.support.ResourceBundleMessageSource">
+       <property name="basenames">
+           <list>
+               <value>messages/validationMessages</value>
+               <value>messages/viewtext</value>
+           </list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+    <!-- 
+	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor">
+    	<property name="alwaysUseJndiLookup" value="true" />
+	</bean>
+-->
+<!-- 
+	<jee:jndi-lookup id="cursoServiceRemote" jndi-name="java:app/gestion-docente-ejb/cursoServiceBean" />
+	<jee:jndi-lookup id="profesorServiceRemote" jndi-name="java:app/gestion-docente-ejb/profesorServiceBean" />
+	<jee:jndi-lookup id="clienteServiceRemote" jndi-name="java:app/gestion-docente-ejb/clienteServiceBean" />
+	<jee:jndi-lookup id="alumnoServiceRemote" jndi-name="java:app/gestion-docente-ejb/alumnoServiceBean" />
+	<jee:jndi-lookup id="imparticionServiceRemote" jndi-name="java:app/gestion-docente-ejb/imparticionServiceBean" />
+	
+	<bean id="imparticionServiceImp" class="com.ipartek.formacion.service.ImparticionServiceEJBImp">
+		<property name="imparticionServiceRemote" ref="imparticionServiceRemote" />
+	</bean>
+	
+	<bean id="cursoServiceImp" class="com.ipartek.formacion.service.CursoServiceImp">
+		<property name="cursoServiceRemote" ref="cursoServiceRemote" />
+	</bean>
+	
+	<bean id="profesorServiceEJBImp" class="com.ipartek.formacion.service.ProfesorServiceEJBImp">
+		<property name="profesorServiceRemote" ref="profesorServiceRemote" />
+	</bean>
+	<bean id="clienteServiceEJBImp" class="com.ipartek.formacion.service.ClienteServiceEJBImp">
+		<property name="clienteServiceRemote" ref="clienteServiceRemote" />
+	</bean>
+	<bean id="alumnoServiceEJBImp" class="com.ipartek.formacion.service.AlumnoServiceEJBImp">
+		<property name="alumnoServiceRemote" ref="alumnoServiceRemote" />
+	</bean>
+	 -->
+</beans>
