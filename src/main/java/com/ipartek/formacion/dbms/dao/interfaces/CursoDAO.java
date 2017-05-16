@@ -15,4 +15,6 @@ public interface CursoDAO extends DAOSetter {
 	public Curso update(Curso curso);
 
 	public Curso create(Curso curso);
+
+	public Curso getByIdentificador(String identificador);
 }

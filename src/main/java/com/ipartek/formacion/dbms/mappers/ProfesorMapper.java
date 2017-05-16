@@ -13,22 +13,22 @@ public class ProfesorMapper implements RowMapper<Profesor> {
 	private final static Logger LOGGER = LoggerFactory.getLogger(ProfesorMapper.class);
 
 	@Override
-	public Profesor mapRow(ResultSet rs, int rownum) throws SQLException {
+	public Profesor mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Profesor profesor = null;
 		profesor = new Profesor();
-		profesor.setCodigo(rs.getInt("codigo"));
-		profesor.setNombre(rs.getString("nombre"));
-		profesor.setApellidos(rs.getString("apellidos"));
-		profesor.setnSS(rs.getString("nss"));
-		profesor.setDni(rs.getString("dni"));
-		profesor.setfNacimiento(rs.getDate("fNacimiento"));
-		profesor.setCodigoPostal(rs.getInt("codigopostal"));
-		profesor.setDireccion(rs.getString("direccion"));
-		profesor.setEmail(rs.getString("email"));
-		profesor.setPoblacion(rs.getString("poblacion"));
-		profesor.setTelefono(rs.getString("telefono"));
-		profesor.setPoblacion(rs.getString("poblacion"));
-		profesor.setActivo(rs.getBoolean("activo"));
+		profesor.setCodigo(rs.getInt("profesorcodigo"));
+		profesor.setNombre(rs.getString("profesornombre"));
+		profesor.setApellidos(rs.getString("profesorapellidos"));
+		profesor.setnSS(rs.getString("profesornss"));
+		profesor.setDni(rs.getString("profesordni"));
+		profesor.setfNacimiento(rs.getDate("profesorfNacimiento"));
+		profesor.setCodigoPostal(rs.getInt("profesorcodigopostal"));
+		profesor.setDireccion(rs.getString("profesordireccion"));
+		profesor.setEmail(rs.getString("profesoremail"));
+		profesor.setPoblacion(rs.getString("profesorpoblacion"));
+		profesor.setTelefono(rs.getString("profesortelefono"));
+		profesor.setPoblacion(rs.getString("profesorpoblacion"));
+		profesor.setActivo(rs.getBoolean("profesoractivo"));
 		return profesor;
 	}
 

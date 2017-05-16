@@ -17,7 +17,6 @@
 	            <beans:bean class="com.ipartek.formacion.controller.converter.ProfesorConverter"/>
 	            <beans:bean class="com.ipartek.formacion.controller.converter.ClienteConverter"/>
 	             <beans:bean class="com.ipartek.formacion.controller.converter.AlumnoConverter"/>
-	             <beans:bean class="com.ipartek.formacion.controller.converter.ImparticionConverter"/>
 	        </beans:set>
 	    </beans:property>
 	</beans:bean>
@@ -81,7 +80,7 @@
 	
 	<context:component-scan base-package="com.ipartek.formacion" />
 	
-	
+	<!-- 
 	<cors>
 		<mapping path="/api/**"
 			allowed-origins="*"
@@ -100,6 +99,7 @@
 		<mapping path="/resources/**"
 				allowed-origins="http://formacion.ipartek.com" />
 	</cors>
+	 -->
 	<beans:bean id="simpleMappingExceptionResolver" class="com.ipartek.formacion.controller.resolver.MyMappingExceptionResolver">
 		<beans:property name="exceptionMappings">
 			<beans:map>

@@ -16,18 +16,18 @@ public class AlumnoMapper implements RowMapper<Alumno> {
 	@Override
 	public Alumno mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Alumno alumno = new Alumno();
-		alumno.setCodigo(rs.getInt("codigo"));
-		alumno.setApellidos(rs.getString("apellidos"));
-		alumno.setNombre(rs.getString("nombre"));
-		alumno.setActivo(rs.getBoolean("activo"));
-		alumno.setnHermanos(rs.getInt("nhermanos"));
-		alumno.setDni(rs.getString("dni"));
-		alumno.setfNacimiento(rs.getDate("fnacimiento"));
-		alumno.setEmail(rs.getString("email"));
-		alumno.setDireccion(rs.getString("direccion"));
-		alumno.setPoblacion(rs.getString("poblacion"));
-		alumno.setCodigoPostal(rs.getInt("codigopostal"));
-		alumno.setTelefono(String.valueOf(rs.getInt("telefono")));
+		alumno.setCodigo(rs.getInt("alumnocodigo"));
+		alumno.setApellidos(rs.getString("alumnoapellidos"));
+		alumno.setNombre(rs.getString("alumnonombre"));
+		alumno.setActivo(rs.getBoolean("alumnoactivo"));
+		alumno.setnHermanos(rs.getInt("alumnonhermanos"));
+		alumno.setDni(rs.getString("alumnodni"));
+		alumno.setfNacimiento(rs.getDate("alumnofnacimiento"));
+		alumno.setEmail(rs.getString("alumnoemail"));
+		alumno.setDireccion(rs.getString("alumnodireccion"));
+		alumno.setPoblacion(rs.getString("alumnopoblacion"));
+		alumno.setCodigoPostal(rs.getInt("alumnocodigopostal"));
+		alumno.setTelefono(String.valueOf(rs.getInt("alumnotelefono")));
 
 		return alumno;
 	}

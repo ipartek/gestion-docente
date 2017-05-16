@@ -1,4 +1,4 @@
-package com.ipartek.formacion.api.restfulservers.alumno;
+package com.ipartek.formacion.api.restfulservers.curso;
 
 import java.util.List;
 
@@ -21,31 +21,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.ipartek.formacion.dbms.persistence.Alumno;
-import com.ipartek.formacion.service.interfaces.AlumnoService;
+import com.ipartek.formacion.dbms.persistence.Curso;
+import com.ipartek.formacion.service.interfaces.CursoService;
 
 @CrossOrigin(origins = "*", maxAge = 3600, methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
 		RequestMethod.DELETE })
 @RestController
-@RequestMapping(value = "/api/alumnos")
-public class AlumnoRestController {
-	/*
-	 * 1===1 ---> son el mismo valor y el mismo tipo 1==='1' ---> no es identico
-	 * pq no son del mismo tipo 1=='1' ---> son el mismo valor
-	 * 
-	 * @Autowired === @Inject
-	 * 
-	 * @EJB == @Inject
-	 * 
-	 */
-
+@RequestMapping(value = "/api/cursos")
+public class CursoRestController {
 	@Autowired
-	AlumnoService aS;
+	CursoService cS;
 
-	//
-	// @Autowired + @Qualifier("alumnoValidator") = @Resource(name
-	// ="alumnoValidator")
-	@Resource(name = "alumnoValidator")
+	@Resource(name = "cursoValidator")
 	Validator validator;
 
 	// http://gestionformacion/api/alumnos/1
@@ -62,28 +49,28 @@ public class AlumnoRestController {
 	}
 
 	@RequestMapping(value = "/{codigo}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Alumno> getById(@PathVariable("codigo") int id) {
-		Alumno alumno = aS.getById(id);
-		ResponseEntity<Alumno> response = null;
+	public ResponseEntity<Curso> getById(@PathVariable("codigo") int id) {
+		Curso curso = cS.getById(id);
+		ResponseEntity<Curso> response = null;
 
-		if (alumno == null) {// 404
-			response = new ResponseEntity<Alumno>(HttpStatus.NOT_FOUND);
+		if (curso == null) {// 404
+			response = new ResponseEntity<Curso>(HttpStatus.NOT_FOUND);
 		} else {// 200
-			response = new ResponseEntity<Alumno>(alumno, HttpStatus.OK);
+			response = new ResponseEntity<Curso>(curso, HttpStatus.OK);
 		}
 
 		return response;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<Alumno>> getAll() {
-		List<Alumno> alumnos = aS.getAll();
-		ResponseEntity<List<Alumno>> response = null;
+	public ResponseEntity<List<Curso>> getAll() {
+		List<Curso> cursos = cS.getAll();
+		ResponseEntity<List<Curso>> response = null;
 
-		if (alumnos == null || alumnos.isEmpty()) {
-			response = new ResponseEntity<List<Alumno>>(HttpStatus.NO_CONTENT);
+		if (cursos == null || cursos.isEmpty()) {
+			response = new ResponseEntity<List<Curso>>(HttpStatus.NO_CONTENT);
 		} else {
-			response = new ResponseEntity<List<Alumno>>(alumnos, HttpStatus.OK);
+			response = new ResponseEntity<List<Curso>>(cursos, HttpStatus.OK);
 		}
 
 		return response;
@@ -91,17 +78,17 @@ public class AlumnoRestController {
 
 	@RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Void> create(@Valid @RequestBody Alumno alumno, UriComponentsBuilder ucBuilder) {
-		Alumno alum = aS.getByDni(alumno.getDni());
+	public ResponseEntity<Void> create(@Valid @RequestBody Curso curso, UriComponentsBuilder ucBuilder) {
+		Curso course = cS.getById(curso.getCodigo());
 		ResponseEntity<Void> response = null;
 
-		if (alum != null) {
+		if (course != null) {
 			response = new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		} else {
 			try {
-				Alumno aux = aS.create(alumno);
+				Curso aux = cS.create(course);
 				HttpHeaders headers = new HttpHeaders();
-				headers.setLocation(ucBuilder.path("/api/alumnos/{codigo}").buildAndExpand(aux.getCodigo()).toUri());
+				headers.setLocation(ucBuilder.path("/api/curso/{codigo}").buildAndExpand(aux.getCodigo()).toUri());
 				response = new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 			} catch (Exception e) {
 				response = new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
@@ -117,25 +104,22 @@ public class AlumnoRestController {
 		return response;
 	}
 
-	// alumnos/nombre/apellidos/ --> alumnos?nombre= &&acute;apellidos=
-	// alumnos/dni (string)
-	// alumnos/codigo (numero)
 	@RequestMapping(value = "/{codigo}", consumes = {
 			MediaType.APPLICATION_JSON_VALUE }, method = RequestMethod.PUT, produces = {
 					MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Alumno> update(@PathVariable("codigo") int id, @Valid @RequestBody Alumno alumno) {
-		Alumno alum = aS.getById(id);
-		ResponseEntity<Alumno> response = null;
+	public ResponseEntity<Curso> update(@PathVariable("codigo") int id, @Valid @RequestBody Curso curso) {
+		Curso course = cS.getById(id);
+		ResponseEntity<Curso> response = null;
 
-		if (alum == null) {
-			response = new ResponseEntity<Alumno>(HttpStatus.NOT_FOUND);
+		if (course == null) {
+			response = new ResponseEntity<Curso>(HttpStatus.NOT_FOUND);
 		} else {
 			try {
-				alum = aS.update(alumno);
-				response = new ResponseEntity<Alumno>(alum, HttpStatus.ACCEPTED);
+				course = cS.update(curso);
+				response = new ResponseEntity<Curso>(course, HttpStatus.ACCEPTED);
 
 			} catch (Exception e) {
-				response = new ResponseEntity<Alumno>(HttpStatus.NOT_ACCEPTABLE);
+				response = new ResponseEntity<Curso>(HttpStatus.NOT_ACCEPTABLE);
 			}
 		}
 
@@ -143,15 +127,16 @@ public class AlumnoRestController {
 	}
 
 	@RequestMapping(value = "/{codigo}", method = RequestMethod.DELETE, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Alumno> deleteById(@PathVariable("codigo") int id) {
-		Alumno alum = aS.getById(id);
-		ResponseEntity<Alumno> response = null;
-		if (alum == null) {
-			response = new ResponseEntity<Alumno>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<Curso> deleteById(@PathVariable("codigo") int id) {
+		Curso course = cS.getById(id);
+		ResponseEntity<Curso> response = null;
+		if (course == null) {
+			response = new ResponseEntity<Curso>(HttpStatus.NOT_FOUND);
 		} else {
-			aS.delete(id);
-			response = new ResponseEntity<Alumno>(HttpStatus.NO_CONTENT);
+			cS.delete(id);
+			response = new ResponseEntity<Curso>(HttpStatus.NO_CONTENT);
 		}
 		return response;
 	}
+
 }

@@ -13,17 +13,17 @@ public class ClienteMapper implements RowMapper<Cliente> {
 	private final static Logger LOGGER = LoggerFactory.getLogger(ClienteMapper.class);
 
 	@Override
-	public Cliente mapRow(ResultSet rs, int rowN) throws SQLException {
+	public Cliente mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Cliente cliente = new Cliente();
-		cliente.setCodigo(rs.getInt("codigo"));
-		cliente.setNombre(rs.getString("nombre"));
-		cliente.setIdentificador(rs.getString("identificador"));
-		cliente.setCodigoPostal(rs.getInt("codigopostal"));
-		cliente.setDireccion(rs.getString("direccion"));
-		cliente.setEmail(rs.getString("email"));
-		cliente.setPoblacion(rs.getString("poblacion"));
-		cliente.setTelefono(String.valueOf(rs.getInt("telefono")));
-		cliente.setActivo(rs.getBoolean("activo"));
+		cliente.setCodigo(rs.getInt("clientecodigo"));
+		cliente.setNombre(rs.getString("clientenombre"));
+		cliente.setIdentificador(rs.getString("clienteidentificador"));
+		cliente.setCodigoPostal(rs.getInt("clientecodigopostal"));
+		cliente.setDireccion(rs.getString("clientedireccion"));
+		cliente.setEmail(rs.getString("clienteemail"));
+		cliente.setPoblacion(rs.getString("clientepoblacion"));
+		cliente.setTelefono(String.valueOf(rs.getInt("clientetelefono")));
+		cliente.setActivo(rs.getBoolean("clienteactivo"));
 		return cliente;
 	}
 

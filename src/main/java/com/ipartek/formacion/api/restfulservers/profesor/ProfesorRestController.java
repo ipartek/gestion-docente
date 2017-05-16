@@ -1,8 +1,7 @@
-package com.ipartek.formacion.api.restfulservers.alumno;
+package com.ipartek.formacion.api.restfulservers.profesor;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Validator;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,32 +17,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.ipartek.formacion.dbms.persistence.Alumno;
-import com.ipartek.formacion.service.interfaces.AlumnoService;
+import com.ipartek.formacion.dbms.persistence.Profesor;
+import com.ipartek.formacion.service.interfaces.ProfesorService;
 
 @CrossOrigin(origins = "*", maxAge = 3600, methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
 		RequestMethod.DELETE })
 @RestController
-@RequestMapping(value = "/api/alumnos")
-public class AlumnoRestController {
-	/*
-	 * 1===1 ---> son el mismo valor y el mismo tipo 1==='1' ---> no es identico
-	 * pq no son del mismo tipo 1=='1' ---> son el mismo valor
-	 * 
-	 * @Autowired === @Inject
-	 * 
-	 * @EJB == @Inject
-	 * 
-	 */
+@RequestMapping(value = "/api/profesores")
+public class ProfesorRestController {
 
 	@Autowired
-	AlumnoService aS;
+	ProfesorService pS;
 
-	//
-	// @Autowired + @Qualifier("alumnoValidator") = @Resource(name
-	// ="alumnoValidator")
-	@Resource(name = "alumnoValidator")
-	Validator validator;
+	// @Resource(name = "profesorValidator")
+	// Validator validator;
 
 	// http://gestionformacion/api/alumnos/1
 	// PUT -----> UPDATE
@@ -56,34 +40,29 @@ public class AlumnoRestController {
 	// GET------> GETALL
 	// POST-----> CREATE
 
-	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		binder.addValidators(validator);
-	}
-
 	@RequestMapping(value = "/{codigo}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Alumno> getById(@PathVariable("codigo") int id) {
-		Alumno alumno = aS.getById(id);
-		ResponseEntity<Alumno> response = null;
+	public ResponseEntity<Profesor> getById(@PathVariable("codigo") int id) {
+		Profesor profesor = pS.getById(id);
+		ResponseEntity<Profesor> response = null;
 
-		if (alumno == null) {// 404
-			response = new ResponseEntity<Alumno>(HttpStatus.NOT_FOUND);
+		if (profesor == null) {// 404
+			response = new ResponseEntity<Profesor>(HttpStatus.NOT_FOUND);
 		} else {// 200
-			response = new ResponseEntity<Alumno>(alumno, HttpStatus.OK);
+			response = new ResponseEntity<Profesor>(profesor, HttpStatus.OK);
 		}
 
 		return response;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<Alumno>> getAll() {
-		List<Alumno> alumnos = aS.getAll();
-		ResponseEntity<List<Alumno>> response = null;
+	public ResponseEntity<List<Profesor>> getAll() {
+		List<Profesor> profesores = pS.getAll();
+		ResponseEntity<List<Profesor>> response = null;
 
-		if (alumnos == null || alumnos.isEmpty()) {
-			response = new ResponseEntity<List<Alumno>>(HttpStatus.NO_CONTENT);
+		if (profesores == null || profesores.isEmpty()) {
+			response = new ResponseEntity<List<Profesor>>(HttpStatus.NO_CONTENT);
 		} else {
-			response = new ResponseEntity<List<Alumno>>(alumnos, HttpStatus.OK);
+			response = new ResponseEntity<List<Profesor>>(profesores, HttpStatus.OK);
 		}
 
 		return response;
@@ -91,17 +70,17 @@ public class AlumnoRestController {
 
 	@RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Void> create(@Valid @RequestBody Alumno alumno, UriComponentsBuilder ucBuilder) {
-		Alumno alum = aS.getByDni(alumno.getDni());
+	public ResponseEntity<Void> create(@Valid @RequestBody Profesor profesor, UriComponentsBuilder ucBuilder) {
+		Profesor profe = pS.getByDni(profesor.getDni());
 		ResponseEntity<Void> response = null;
 
-		if (alum != null) {
+		if (profe != null) {
 			response = new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		} else {
 			try {
-				Alumno aux = aS.create(alumno);
+				Profesor aux = pS.create(profesor);
 				HttpHeaders headers = new HttpHeaders();
-				headers.setLocation(ucBuilder.path("/api/alumnos/{codigo}").buildAndExpand(aux.getCodigo()).toUri());
+				headers.setLocation(ucBuilder.path("/api/profesores/{codigo}").buildAndExpand(aux.getCodigo()).toUri());
 				response = new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 			} catch (Exception e) {
 				response = new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
@@ -123,19 +102,19 @@ public class AlumnoRestController {
 	@RequestMapping(value = "/{codigo}", consumes = {
 			MediaType.APPLICATION_JSON_VALUE }, method = RequestMethod.PUT, produces = {
 					MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Alumno> update(@PathVariable("codigo") int id, @Valid @RequestBody Alumno alumno) {
-		Alumno alum = aS.getById(id);
-		ResponseEntity<Alumno> response = null;
+	public ResponseEntity<Profesor> update(@PathVariable("codigo") int id, @Valid @RequestBody Profesor profesor) {
+		Profesor profe = pS.getById(id);
+		ResponseEntity<Profesor> response = null;
 
-		if (alum == null) {
-			response = new ResponseEntity<Alumno>(HttpStatus.NOT_FOUND);
+		if (profe == null) {
+			response = new ResponseEntity<Profesor>(HttpStatus.NOT_FOUND);
 		} else {
 			try {
-				alum = aS.update(alumno);
-				response = new ResponseEntity<Alumno>(alum, HttpStatus.ACCEPTED);
+				profe = pS.update(profesor);
+				response = new ResponseEntity<Profesor>(profe, HttpStatus.ACCEPTED);
 
 			} catch (Exception e) {
-				response = new ResponseEntity<Alumno>(HttpStatus.NOT_ACCEPTABLE);
+				response = new ResponseEntity<Profesor>(HttpStatus.NOT_ACCEPTABLE);
 			}
 		}
 
@@ -143,15 +122,16 @@ public class AlumnoRestController {
 	}
 
 	@RequestMapping(value = "/{codigo}", method = RequestMethod.DELETE, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Alumno> deleteById(@PathVariable("codigo") int id) {
-		Alumno alum = aS.getById(id);
-		ResponseEntity<Alumno> response = null;
-		if (alum == null) {
-			response = new ResponseEntity<Alumno>(HttpStatus.NOT_FOUND);
+	public ResponseEntity<Profesor> deleteById(@PathVariable("codigo") int id) {
+		Profesor profe = pS.getById(id);
+		ResponseEntity<Profesor> response = null;
+		if (profe == null) {
+			response = new ResponseEntity<Profesor>(HttpStatus.NOT_FOUND);
 		} else {
-			aS.delete(id);
-			response = new ResponseEntity<Alumno>(HttpStatus.NO_CONTENT);
+			pS.delete(id);
+			response = new ResponseEntity<Profesor>(HttpStatus.NO_CONTENT);
 		}
 		return response;
 	}
+
 }

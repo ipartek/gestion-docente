@@ -94,7 +94,7 @@ public class AlumnoDAOImp implements AlumnoDAO {
 	@Override
 	public Alumno getById(long codigo) {
 		Alumno alumno = null;
-		final String SQL = "CALL alumnogetById(?)";
+		final String SQL = "CALL alumnogetById(?);";
 		try {
 			alumno = jdbctemplate.queryForObject(SQL, new AlumnoMapper(), new Object[] { codigo });
 			LOGGER.info(alumno.toString());
