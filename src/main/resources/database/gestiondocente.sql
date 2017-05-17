@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-05-2017 a las 06:16:24
+-- Tiempo de generación: 17-05-2017 a las 06:28:17
 -- Versión del servidor: 5.7.9
 -- Versión de PHP: 5.6.16
 
@@ -48,7 +48,8 @@ DROP PROCEDURE IF EXISTS `alumnogetAll`$$
 CREATE DEFINER=`admin`@`%` PROCEDURE `alumnogetAll` ()  NO SQL
 BEGIN
 	SELECT `codigo` as alumnocodigo, `nombre` as alumnonombre, `apellidos` as alumnoapellidos, `fNacimiento` as alumnofnacimiento, `direccion` as alumnodireccion, `poblacion` as alumnopoblacion, `codigopostal` as alumnocodigopostal, `telefono` as alumnotelefono, `email` as alumnoemail, `dni` as alumnodni, `nHermanos` as alumnonhermanos, `activo` as alumnoactivo
-	FROM `alumno`;
+	FROM `alumno`
+    WHERE alumno.activo = true;
 END$$
 
 DROP PROCEDURE IF EXISTS `alumnogetByCurso`$$
@@ -122,7 +123,8 @@ DROP PROCEDURE IF EXISTS `clientegetAll`$$
 CREATE DEFINER=`admin`@`%` PROCEDURE `clientegetAll` ()  NO SQL
 BEGIN
 	SELECT`codigo` as clientecodigo, `nombre` as clientenombre, `email` as clienteemail, `telefono` as clientetelefono, `direccion` as clientedireccion, `poblacion` as clientepoblacion, `codigopostal` as clientecodigopostal,`identificador` as clienteidentificador,activo as clienteactivo
-	FROM `cliente`;
+	FROM `cliente`
+    WHERE cliente.activo = true;
 END$$
 
 DROP PROCEDURE IF EXISTS `clientegetById`$$
@@ -184,8 +186,8 @@ SELECT
 p.`codigo` as profesorcodigo, p.`NSS` as profesornss, p.`nombre` as profesornombre, p.`apellidos` as profesorapellidos, p.`fNacimiento` as profesorfnacimiento, p.`DNI` as profesordni, p.`direccion` as profesordireccion, p.`poblacion` as profesorpoblacion, p.`codigopostal` as profesorcodigopostal, p.`telefono` as profesortelefono, p.`email` as profesoremail,p.activo as profesoractivo, cli.codigo as clientecodigo, cli.`nombre` as clientenombre, cli.`email` as clienteemail, cli.`telefono` as clientetelefono, cli.identificador as clienteidentificador, cli.`direccion` as clientedireccion, cli.`poblacion` as clientepoblacion, cli.`codigopostal` as clientecodigopostal, cli.activo as clienteactivo
 FROM curso c
 	LEFT JOIN profesor p ON p.codigo = c.profesor_codigo
-  LEFT JOIN cliente cli ON cli.codigo = c.cliente_codigo;
-
+  LEFT JOIN cliente cli ON cli.codigo = c.cliente_codigo
+WHERE c.activo = true;
 
 
 END$$
@@ -268,7 +270,8 @@ CREATE DEFINER=`admin`@`%` PROCEDURE `profesorgetAll` ()  NO SQL
 BEGIN
 
 	SELECT `codigo` as profesorcodigo, `NSS` as profesornss, `nombre` as profesornombre, `apellidos` as profesorapellidos, `fNacimiento` as profesorfnacimiento, `DNI` as profesordni, `direccion` as profesordireccion, `poblacion` as profesorpoblacion, `codigopostal` as profesorcodigopostal, `telefono` as profesortelefono, `email` as profesoremail,activo as profesoractivo
-	FROM `profesor`;
+	FROM `profesor`
+    WHERE profesor.activo = true;
 
 END$$
 
