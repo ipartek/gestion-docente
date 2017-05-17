@@ -2,6 +2,9 @@ package com.ipartek.formacion.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +19,9 @@ import com.ipartek.formacion.service.interfaces.CursoService;
 @Service("cursoServiceImp")
 public class CursoServiceImp implements CursoService {
 
+	@Autowired
 	private CursoDAO cursoDao;
+	private final static Logger LOGGER = LoggerFactory.getLogger(CursoServiceImp.class);
 
 	@Override
 	public Curso getById(long codigo) {

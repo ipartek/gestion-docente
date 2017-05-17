@@ -14,11 +14,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.stereotype.Repository;
 
 import com.ipartek.formacion.dbms.dao.interfaces.CursoDAO;
 import com.ipartek.formacion.dbms.mappers.CursoMapper;
 import com.ipartek.formacion.dbms.persistence.Curso;
 
+@Repository("cursoDaoImp")
 public class CursoDAOImp implements CursoDAO {
 	@Autowired
 	@Qualifier("mysqlDataSource")

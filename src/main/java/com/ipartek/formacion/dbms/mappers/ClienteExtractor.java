@@ -22,35 +22,35 @@ public class ClienteExtractor implements ResultSetExtractor<Map<Integer, Cliente
 		// Map<Long, Curso> cursos = null;
 		while (rs.next()) {
 			// recogemos el codigo de cliente
-			int codigo = rs.getInt("codigo");
+			int codigo = rs.getInt("clientecodigo");
 			// recogemos el cliente del mapa
 			Cliente cliente = clientes.get(codigo);
 
 			if (cliente == null) {// si el cliente no esta en el mapa
 				cliente = new Cliente();
-				cliente.setNombre(rs.getString("nombre"));
-				cliente.setIdentificador(rs.getString("identificador"));
-				cliente.setCodigoPostal(rs.getInt("codigopostal"));
-				cliente.setDireccion(rs.getString("direccion"));
-				cliente.setEmail(rs.getString("email"));
-				cliente.setPoblacion(rs.getString("poblacion"));
-				cliente.setTelefono(String.valueOf(rs.getInt("telefono")));
-				cliente.setActivo(rs.getBoolean("activo"));
-				cliente.setCodigo(rs.getInt("codigo"));
+				cliente.setNombre(rs.getString("clientenombre"));
+				cliente.setIdentificador(rs.getString("clienteidentificador"));
+				cliente.setCodigoPostal(rs.getInt("clientecodigopostal"));
+				cliente.setDireccion(rs.getString("clientedireccion"));
+				cliente.setEmail(rs.getString("clienteemail"));
+				cliente.setPoblacion(rs.getString("clientepoblacion"));
+				cliente.setTelefono(String.valueOf(rs.getInt("clientetelefono")));
+				cliente.setActivo(rs.getBoolean("clienteactivo"));
+				cliente.setCodigo(rs.getInt("clientecodigo"));
 				// cliente.setCursos();
 				clientes.put(cliente.getCodigo(), cliente);
 			}
 			// aqui es donde cargamos el mapa de cursos
 			// cursos = cliente.getCursos();
-			Long cCurso = rs.getLong("codigocurso");
+			Long cCurso = rs.getLong("cursocodigo");
 			LOGGER.info("nº cursos1: " + cliente.getCursos().size());
 			if (cCurso != null && cCurso > -1) {
 				Curso curso = new Curso();
-				curso.setCodigo(rs.getLong("codigocurso"));
-				curso.setNombre(rs.getString("nombrecurso"));
-				curso.setFinicio(rs.getDate("finicio"));
-				curso.setFfin(rs.getDate("ffin"));
-				curso.setNhoras(rs.getInt("nhoras"));
+				curso.setCodigo(rs.getLong("cursocodigo"));
+				curso.setNombre(rs.getString("cursonombre"));
+				curso.setFinicio(rs.getDate("cursofinicio"));
+				curso.setFfin(rs.getDate("cursoffin"));
+				curso.setNhoras(rs.getInt("cursonhoras"));
 				cliente.getCursos().put(cCurso, curso);
 			}
 			LOGGER.info("nº cursos2: " + cliente.getCursos().size());

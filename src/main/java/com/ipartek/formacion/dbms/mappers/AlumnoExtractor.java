@@ -22,22 +22,22 @@ public class AlumnoExtractor implements ResultSetExtractor<Map<String, Alumno>> 
 	public Map<String, Alumno> extractData(ResultSet rs) throws SQLException, DataAccessException {
 		Map<String, Alumno> alumnos = new HashMap<String, Alumno>();
 		while (rs.next()) {
-			String dni = rs.getString("dni");
+			String dni = rs.getString("alumnodni");
 			Alumno alumno = alumnos.get(dni);
 			if (alumno == null) {
 				alumno = new Alumno();
-				alumno.setCodigo(rs.getInt("codigo"));
-				alumno.setApellidos(rs.getString("apellidos"));
-				alumno.setNombre(rs.getString("nombre"));
-				alumno.setActivo(rs.getBoolean("activo"));
-				alumno.setnHermanos(rs.getInt("nhermanos"));
+				alumno.setCodigo(rs.getInt("alumnocodigo"));
+				alumno.setApellidos(rs.getString("alumnoapellidos"));
+				alumno.setNombre(rs.getString("alumnonombre"));
+				alumno.setActivo(rs.getBoolean("alumnoactivo"));
+				alumno.setnHermanos(rs.getInt("alumnonhermanos"));
 				alumno.setDni(dni);
-				alumno.setfNacimiento(rs.getDate("fnacimiento"));
-				alumno.setEmail(rs.getString("email"));
-				alumno.setDireccion(rs.getString("direccion"));
-				alumno.setPoblacion(rs.getString("poblacion"));
-				alumno.setCodigoPostal(rs.getInt("codigopostal"));
-				alumno.setTelefono(String.valueOf(rs.getInt("telefono")));
+				alumno.setfNacimiento(rs.getDate("alumnofnacimiento"));
+				alumno.setEmail(rs.getString("alumnoemail"));
+				alumno.setDireccion(rs.getString("alumnodireccion"));
+				alumno.setPoblacion(rs.getString("alumnopoblacion"));
+				alumno.setCodigoPostal(rs.getInt("alumnocodigopostal"));
+				alumno.setTelefono(String.valueOf(rs.getInt("alumnotelefono")));
 				alumno.setCursos(new ArrayList<Curso>());
 				alumnos.put(alumno.getDni(), alumno);
 			}
@@ -46,11 +46,11 @@ public class AlumnoExtractor implements ResultSetExtractor<Map<String, Alumno>> 
 			if (cCurso != null && cCurso > -1) {
 
 				Curso curso = new Curso();
-				curso.setCodigo(rs.getLong("codigocurso"));
-				curso.setNombre(rs.getString("nombrecurso"));
-				curso.setFinicio(rs.getDate("finicio"));
-				curso.setFfin(rs.getDate("ffin"));
-				curso.setNhoras(rs.getInt("nhoras"));
+				curso.setCodigo(rs.getLong("cursocodigo"));
+				curso.setNombre(rs.getString("cursonombre"));
+				curso.setFinicio(rs.getDate("cursofinicio"));
+				curso.setFfin(rs.getDate("cursoffin"));
+				curso.setNhoras(rs.getInt("cursonhoras"));
 				LOGGER.info("Datos del alumno:" + alumno.toString());
 				LOGGER.info("Datos de curso:" + curso.toString());
 				List<Curso> cursos = alumno.getCursos();

@@ -30,7 +30,10 @@
 	<bean id="profesorDaoImp" class="com.ipartek.formacion.dbms.dao.ProfesorDAOImp">
 		<property name="dataSource" ref="mysqlDataSource"/>
 	</bean>
-		<bean id="clienteDaoImp" class="com.ipartek.formacion.dbms.dao.ClienteDAOImp">
+	<bean id="clienteDaoImp" class="com.ipartek.formacion.dbms.dao.ClienteDAOImp">
+		<property name="dataSource" ref="mysqlDataSource"/>
+	</bean>
+	<bean id="cursoDaoImp" class="com.ipartek.formacion.dbms.dao.CursoDAOImp">
 		<property name="dataSource" ref="mysqlDataSource"/>
 	</bean>
 	<!-- 
