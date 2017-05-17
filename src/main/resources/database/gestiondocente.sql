@@ -1,434 +1,101 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- phpMyAdmin SQL Dump
+-- version 4.5.2
+-- http://www.phpmyadmin.net
 --
--- Host: localhost    Database: gestiondocente
--- ------------------------------------------------------
--- Server version	5.7.9
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 17-05-2017 a las 06:16:24
+-- Versión del servidor: 5.7.9
+-- Versión de PHP: 5.6.16
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Table structure for table `alumno`
+-- Base de datos: `gestiondocente`
 --
+DROP DATABASE `gestiondocente`;
+CREATE DATABASE IF NOT EXISTS `gestiondocente` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+USE `gestiondocente`;
 
-DROP TABLE IF EXISTS `alumno`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `alumno` (
-  `codigo` int(11) NOT NULL AUTO_INCREMENT COMMENT 'el campo clave de la tabla. Es auto generado.',
-  `nombre` varchar(50) COLLATE utf8_bin NOT NULL,
-  `apellidos` varchar(250) COLLATE utf8_bin NOT NULL,
-  `fNacimiento` date DEFAULT NULL,
-  `direccion` varchar(250) COLLATE utf8_bin DEFAULT NULL,
-  `poblacion` varchar(150) COLLATE utf8_bin DEFAULT NULL,
-  `codigopostal` int(5) unsigned zerofill DEFAULT NULL,
-  `telefono` int(9) NOT NULL,
-  `email` varchar(150) COLLATE utf8_bin NOT NULL,
-  `dni` varchar(9) COLLATE utf8_bin NOT NULL,
-  `nHermanos` int(2) DEFAULT '0',
-  `activo` tinyint(1) DEFAULT '1',
-  PRIMARY KEY (`codigo`),
-  UNIQUE KEY `dni_UNIQUE` (`dni`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
+DELIMITER $$
 --
--- Dumping data for table `alumno`
+-- Procedimientos
 --
-
-LOCK TABLES `alumno` WRITE;
-/*!40000 ALTER TABLE `alumno` DISABLE KEYS */;
-INSERT INTO `alumno` VALUES (0,'alumno','sin asignar',NULL,NULL,NULL,00000,0,'aaaaaaa@aaaaa.com','0000000x',0,1),(1,'sergio','aparicio vargas','1977-12-01','','',00000,944110293,'aaaa@aaaa.com','44974398z',0,1),(2,'maite','monasterio','1986-11-11','','',48007,944110293,'mmonasterio@gmail.com','16071559x',0,1),(4,'enrique javier','ruiz jimenez','2017-02-14','','',00048,944110239,'enrique@gmail.com','45677362y',0,1);
-/*!40000 ALTER TABLE `alumno` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `asistente`
---
-
-DROP TABLE IF EXISTS `asistente`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `asistente` (
-  `codigo` int(11) NOT NULL AUTO_INCREMENT,
-  `alumno_codigo` int(11) DEFAULT NULL,
-  `imparticion_codigo` int(11) DEFAULT NULL,
-  PRIMARY KEY (`codigo`),
-  KEY `fk_asistente_alumno_codigo_idx` (`alumno_codigo`),
-  KEY `fk_asistente_imparticion_codigo_idx` (`imparticion_codigo`),
-  CONSTRAINT `fk_asistente_alumno_codigo` FOREIGN KEY (`alumno_codigo`) REFERENCES `alumno` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_asistente_imparticion_codigo` FOREIGN KEY (`imparticion_codigo`) REFERENCES `imparticion` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `asistente`
---
-
-LOCK TABLES `asistente` WRITE;
-/*!40000 ALTER TABLE `asistente` DISABLE KEYS */;
-/*!40000 ALTER TABLE `asistente` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `cliente`
---
-
-DROP TABLE IF EXISTS `cliente`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cliente` (
-  `codigo` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` text COLLATE utf8_bin NOT NULL,
-  `email` varchar(150) COLLATE utf8_bin NOT NULL,
-  `telefono` int(9) NOT NULL,
-  `direccion` varchar(250) COLLATE utf8_bin DEFAULT NULL,
-  `poblacion` varchar(150) COLLATE utf8_bin DEFAULT NULL,
-  `codigopostal` int(5) unsigned zerofill DEFAULT NULL,
-  `identificador` varchar(15) COLLATE utf8_bin NOT NULL,
-  `activo` tinyint(4) DEFAULT '1',
-  PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cliente`
---
-
-LOCK TABLES `cliente` WRITE;
-/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (1,'SERIKAT CONSULTORÍA E INFORMÁTICA, S.A.','info@serikat.es',944250100,'c/ Ercilla 19','Bilbao',48009,'A-48476006',1),(2,'lanbide - servicio vasco de empleo','info@lanbide.net',945160601,'Jose Atxotegi 1','Vitoria-Gazteiz',01009,'Q0100571l',1);
-/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `curso`
---
-
-DROP TABLE IF EXISTS `curso`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `curso` (
-  `codigo` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) COLLATE utf8_bin NOT NULL,
-  `identificador` varchar(12) COLLATE utf8_bin NOT NULL,
-  `fInicio` date DEFAULT NULL,
-  `fFin` date DEFAULT NULL,
-  `nHoras` int(4) NOT NULL,
-  `temario` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `activo` tinyint(4) DEFAULT '1',
-  `cliente_codigo` int(11) DEFAULT NULL,
-  `precio` double(8,2) DEFAULT '0.00',
-  PRIMARY KEY (`codigo`),
-  KEY `fk_curso_cliente_codigo_idx` (`cliente_codigo`),
-  CONSTRAINT `fk_curso_cliente_codigo` FOREIGN KEY (`cliente_codigo`) REFERENCES `cliente` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `curso`
---
-
-LOCK TABLES `curso` WRITE;
-/*!40000 ALTER TABLE `curso` DISABLE KEYS */;
-INSERT INTO `curso` VALUES (1,'Desarrrollo de Aplicaciones con Tecnologias Web','18482673','2017-01-09','2017-06-13',510,NULL,1,1,300000.00);
-/*!40000 ALTER TABLE `curso` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `curso_detalle`
---
-
-DROP TABLE IF EXISTS `curso_detalle`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `curso_detalle` (
-  `codigo` int(11) NOT NULL AUTO_INCREMENT,
-  `cuso_codigo` int(11) NOT NULL,
-  `modulo_codigo` int(11) NOT NULL,
-  `fInicio` date DEFAULT NULL,
-  `fFin` date DEFAULT NULL,
-  `precio` double(7,2) DEFAULT NULL,
-  PRIMARY KEY (`codigo`),
-  UNIQUE KEY `uq_curso_codigo_modulo_codigo` (`cuso_codigo`,`modulo_codigo`),
-  KEY `fk_curso_detalle_modulo_codigo` (`modulo_codigo`),
-  CONSTRAINT `fk_curso_detalle_curso_codigo` FOREIGN KEY (`cuso_codigo`) REFERENCES `curso` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_curso_detalle_modulo_codigo` FOREIGN KEY (`modulo_codigo`) REFERENCES `modulo` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `curso_detalle`
---
-
-LOCK TABLES `curso_detalle` WRITE;
-/*!40000 ALTER TABLE `curso_detalle` DISABLE KEYS */;
-/*!40000 ALTER TABLE `curso_detalle` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `evaluacion`
---
-
-DROP TABLE IF EXISTS `evaluacion`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `evaluacion` (
-  `codigo` int(11) NOT NULL AUTO_INCREMENT,
-  `imparticion_codigo` int(11) NOT NULL,
-  `alumno_codigo` int(11) NOT NULL,
-  `fExamen` date NOT NULL,
-  `nota` int(11) NOT NULL,
-  PRIMARY KEY (`codigo`),
-  KEY `fk_evaluacion_modulo_codigo_idx` (`imparticion_codigo`),
-  KEY `fk_evaluacion_alumno_codigo_idx` (`alumno_codigo`),
-  CONSTRAINT `fk_evaluacion_alumno_codigo` FOREIGN KEY (`alumno_codigo`) REFERENCES `alumno` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_evaluacion_imparticion_codigo` FOREIGN KEY (`imparticion_codigo`) REFERENCES `imparticion` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `evaluacion`
---
-
-LOCK TABLES `evaluacion` WRITE;
-/*!40000 ALTER TABLE `evaluacion` DISABLE KEYS */;
-/*!40000 ALTER TABLE `evaluacion` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `imparticion`
---
-
-DROP TABLE IF EXISTS `imparticion`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `imparticion` (
-  `codigo` int(11) NOT NULL AUTO_INCREMENT,
-  `curso_detalle_codigo` int(11) DEFAULT NULL,
-  `profesor_codigo` int(11) DEFAULT NULL,
-  PRIMARY KEY (`codigo`),
-  KEY `fk_imparticion_profesor_codigo_idx` (`profesor_codigo`),
-  KEY `fk_imparticion_curso_modulo_codigo_idx` (`curso_detalle_codigo`),
-  CONSTRAINT `fk_imparticion_curso_detalle_codigo` FOREIGN KEY (`curso_detalle_codigo`) REFERENCES `curso_detalle` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_imparticion_profesor_codigo` FOREIGN KEY (`profesor_codigo`) REFERENCES `profesor` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `imparticion`
---
-
-LOCK TABLES `imparticion` WRITE;
-/*!40000 ALTER TABLE `imparticion` DISABLE KEYS */;
-/*!40000 ALTER TABLE `imparticion` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `modulo`
---
-
-DROP TABLE IF EXISTS `modulo`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `modulo` (
-  `codigo` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) COLLATE utf8_bin NOT NULL,
-  `nHoras` int(3) NOT NULL,
-  `descripcion` text COLLATE utf8_bin,
-  `precio` double(7,2) DEFAULT '0.00',
-  PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `modulo`
---
-
-LOCK TABLES `modulo` WRITE;
-/*!40000 ALTER TABLE `modulo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `modulo` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `profesor`
---
-
-DROP TABLE IF EXISTS `profesor`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `profesor` (
-  `codigo` int(11) NOT NULL AUTO_INCREMENT,
-  `NSS` bigint(12) DEFAULT NULL,
-  `nombre` varchar(50) COLLATE utf8_bin NOT NULL,
-  `apellidos` varchar(250) COLLATE utf8_bin NOT NULL,
-  `fNacimiento` date DEFAULT NULL,
-  `DNI` varchar(9) COLLATE utf8_bin NOT NULL,
-  `direccion` varchar(250) COLLATE utf8_bin DEFAULT NULL,
-  `poblacion` varchar(150) COLLATE utf8_bin DEFAULT NULL,
-  `codigopostal` int(5) unsigned zerofill DEFAULT NULL,
-  `telefono` int(9) NOT NULL,
-  `email` varchar(150) COLLATE utf8_bin NOT NULL,
-  `activo` tinyint(4) DEFAULT '1',
-  PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `profesor`
---
-
-LOCK TABLES `profesor` WRITE;
-/*!40000 ALTER TABLE `profesor` DISABLE KEYS */;
-INSERT INTO `profesor` VALUES (0,0,'profesor','sin asignar',NULL,'00000000z',NULL,NULL,NULL,0,'aaaaaaaa@aaaaa.aaa',1),(1,481234567840,'Urko','Villanueva Alvarez','1976-11-24','30693142x','Av. Mazustegi 9','Bilbao',48009,944110293,'uvillanueva@ipartek.com',1);
-/*!40000 ALTER TABLE `profesor` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping routines for database 'gestiondocente'
---
-/*!50003 DROP PROCEDURE IF EXISTS `alumnoCreate` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`admin`@`%` PROCEDURE `alumnoCreate`(
-IN `papellidos` VARCHAR(250), 
-IN `pcodigopostal` INT(5), 
-IN `pdireccion` VARCHAR(250), 
-IN `pdni` VARCHAR(9), 
-IN `pemail` VARCHAR(150), 
-IN `pfNacimiento` DATE, 
-IN `pnHermanos` INT(2), 
-IN `pnombre` VARCHAR(50), 
-IN `ppoblacion` VARCHAR(150),
-IN `ptelefono` INT(9), 
-OUT `pcodigo` INT)
-BEGIN
+DROP PROCEDURE IF EXISTS `alumnoCreate`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `alumnoCreate` (IN `papellidos` VARCHAR(250), IN `pcodigopostal` INT(5), IN `pdireccion` VARCHAR(250), IN `pdni` VARCHAR(9), IN `pemail` VARCHAR(150), IN `pfNacimiento` DATE, IN `pnHermanos` INT(2), IN `pnombre` VARCHAR(50), IN `ppoblacion` VARCHAR(150), IN `ptelefono` INT(9), OUT `pcodigo` INT)  BEGIN
 
 INSERT	INTO alumno(nombre,apellidos,dni,email,direccion,codigopostal,poblacion,fNacimiento,telefono,nHermanos)
 VALUES(LOWER(pnombre),LOWER(papellidos),LOWER(pdni),LOWER(pemail),LOWER(pdireccion),pcodigopostal,LOWER(ppoblacion),pfNacimiento,ptelefono,pnHermanos);
 SET pcodigo = LAST_INSERT_ID();
 
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `alumnoDelete` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`admin`@`%` PROCEDURE `alumnoDelete`(IN `pcodigo` INT)
-    NO SQL
+END$$
+
+DROP PROCEDURE IF EXISTS `alumnoDelete`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `alumnoDelete` (IN `pcodigo` INT)  NO SQL
 BEGIN
 
 DELETE FROM alumno WHERE codigo = pcodigo;
 
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `alumnogetAll` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`admin`@`%` PROCEDURE `alumnogetAll`()
-    NO SQL
+END$$
+
+DROP PROCEDURE IF EXISTS `alumnogetAll`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `alumnogetAll` ()  NO SQL
 BEGIN
-	SELECT `codigo`, `nombre`, `apellidos`, `fNacimiento`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`, `dni`, `nHermanos`, `activo` 
+	SELECT `codigo` as alumnocodigo, `nombre` as alumnonombre, `apellidos` as alumnoapellidos, `fNacimiento` as alumnofnacimiento, `direccion` as alumnodireccion, `poblacion` as alumnopoblacion, `codigopostal` as alumnocodigopostal, `telefono` as alumnotelefono, `email` as alumnoemail, `dni` as alumnodni, `nHermanos` as alumnonhermanos, `activo` as alumnoactivo
 	FROM `alumno`;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `alumnogetByDni` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnogetByDni`(in pdni varchar(9))
-BEGIN
-    SELECT `codigo` as codigo, `nombre`, `apellidos`, `fNacimiento`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`, `dni`, `nHermanos`, `activo` 
+END$$
+
+DROP PROCEDURE IF EXISTS `alumnogetByCurso`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnogetByCurso` (IN `pcursocodigo` INT)  BEGIN
+	SELECT a.`codigo` as alumnocodigo, a.`nombre` as alumnonombre, a.`apellidos` as alumnoapellidos, a.`fNacimiento` as alumnofnacimiento, a.`direccion` as alumnodireccion, a.`poblacion` as alumnopoblacion, a.`codigopostal` as alumnocodigopostal, a.`telefono` as alumnotelefono, a.`email` as alumnoemail, a.`dni` as alumnodni, a.`nHermanos` as alumnonhermanos, a.`activo` as alumnoactivo
+    FROM `alumno` as a 
+		inner join imparticion as i ON i.alumno_codigo = a.codigo
+        inner join curso as c ON i.curso_codigo = c.codigo
+	WHERE c.codigo = pcursocodigo
+    group by a.codigo;
+        
+        
+END$$
+
+DROP PROCEDURE IF EXISTS `alumnogetByDni`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnogetByDni` (IN `pdni` VARCHAR(9))  BEGIN
+	SELECT `codigo` as alumnocodigo, `nombre` as alumnonombre, `apellidos` as alumnoapellidos, `fNacimiento` as alumnofnacimiento, `direccion` as alumnodireccion, `poblacion` as alumnopoblacion, `codigopostal` as alumnocodigopostal, `telefono` as alumnotelefono, `email` as alumnoemail, `dni` as alumnodni, `nHermanos` as alumnonhermanos, `activo` as alumnoactivo 
     FROM `alumno`
 	WHERE dni = pdni;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `alumnogetById` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`admin`@`%` PROCEDURE `alumnogetById`(IN `pcodigo` INT)
-    NO SQL
+END$$
+
+DROP PROCEDURE IF EXISTS `alumnogetById`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `alumnogetById` (IN `pcodigo` INT)  NO SQL
 BEGIN
 
-    SELECT `codigo` as codigo, `nombre`, `apellidos`, `fNacimiento`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`, `dni`, `nHermanos`, `activo` 
+	SELECT `codigo` as alumnocodigo, `nombre` as alumnonombre, `apellidos` as alumnoapellidos, `fNacimiento` as alumnofnacimiento, `direccion` as alumnodireccion, `poblacion` as alumnopoblacion, `codigopostal` as alumnocodigopostal, `telefono` as alumnotelefono, `email` as alumnoemail, `dni` as alumnodni, `nHermanos` as alumnonhermanos, `activo` as alumnoactivo
     FROM `alumno`
 	WHERE codigo = pcodigo;
 
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `alumnoUpdate` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`admin`@`%` PROCEDURE `alumnoUpdate`(IN `papellidos` VARCHAR(250), IN `pcodigo` INT, IN `pcodigopostal` INT(5), IN `pdireccion` VARCHAR(250), IN `pdni` VARCHAR(9), IN `pemail` VARCHAR(150), IN `pfNacimiento` DATE, IN `pnHermanos` INT(2), IN `pnombre` VARCHAR(150), IN `ppoblacion` VARCHAR(150), IN `ptelefono` INT(9))
-    NO SQL
+END$$
+
+DROP PROCEDURE IF EXISTS `alumnoInforme`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `alumnoInforme` (IN `pcodigo` INT)  BEGIN
+	
+	SELECT `codigo` as alumnocodigo, `nombre` as alumnonombre, `apellidos` as alumnoapellidos, `fNacimiento` as alumnofnacimiento, `direccion` as alumnodireccion, `poblacion` as alumnopoblacion, `codigopostal` as alumnocodigopostal, `telefono` as alumnotelefono, `email` as alumnoemail, `dni` as alumnodni, `nHermanos` as alumnonhermanos, `activo` as alumnoactivo,
+	 c.codigo as cursocodigo,c.nombre as cursonombre,
+     c.identificador as cursoidentificador,
+            c.cursofinicio,c.cursoffin,c.cursonhoras,c.cursoprecio
+            /*,SUM(cd.precio) as preciocurso*/
+    FROM alumno as a
+        LEFT JOIN imparticion as i ON i.alumno_codigo = a.codigo
+        LEFT JOIN curso as c ON c.codigo = i.curso_codigo
+    WHERE a.codigo = pcodigo;
+END$$
+
+DROP PROCEDURE IF EXISTS `alumnoUpdate`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `alumnoUpdate` (IN `papellidos` VARCHAR(250), IN `pcodigo` INT, IN `pcodigopostal` INT(5), IN `pdireccion` VARCHAR(250), IN `pdni` VARCHAR(9), IN `pemail` VARCHAR(150), IN `pfNacimiento` DATE, IN `pnHermanos` INT(2), IN `pnombre` VARCHAR(150), IN `ppoblacion` VARCHAR(150), IN `ptelefono` INT(9))  NO SQL
 BEGIN
 
 UPDATE alumno 
@@ -436,25 +103,10 @@ SET nombre = LOWER(pnombre),apellidos = LOWER(papellidos), dni = LOWER(pdni),ema
 WHERE codigo = pcodigo;
 
 
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `clienteCreate` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteCreate`(IN `pnombre` TEXT, IN `pemail` VARCHAR(150), IN `ptelefono` INT, IN `pdireccion` VARCHAR(150), IN `ppoblacion` VARCHAR(150), IN `pcodigopostal` INT(5)
-, IN `pidentificador` INT, OUT pcodigo INT)
-BEGIN
+END$$
+
+DROP PROCEDURE IF EXISTS `clienteCreate`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteCreate` (IN `pnombre` TEXT, IN `pemail` VARCHAR(150), IN `ptelefono` INT, IN `pdireccion` VARCHAR(150), IN `ppoblacion` VARCHAR(150), IN `pcodigopostal` INT(5), IN `pidentificador` VARCHAR(50), OUT `pcodigo` INT)  BEGIN
 INSERT INTO cliente(`nombre`, `email`, `telefono`, `direccion`, `poblacion`, `codigopostal`, `identificador`) 
 VALUES(LOWER(pnombre),
        LOWER(pemail),
@@ -464,125 +116,36 @@ VALUES(LOWER(pnombre),
        codigopostal,
        LOWER(pidentificador));
 	SET pcodigo = LAST_INSERT_ID();
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `clientegetAll` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`admin`@`%` PROCEDURE `clientegetAll`()
-    NO SQL
+END$$
+
+DROP PROCEDURE IF EXISTS `clientegetAll`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `clientegetAll` ()  NO SQL
 BEGIN
-	SELECT`codigo`, `nombre`, `email`, `telefono`, `direccion`, `poblacion`, `codigopostal`,`identificador`,activo
+	SELECT`codigo` as clientecodigo, `nombre` as clientenombre, `email` as clienteemail, `telefono` as clientetelefono, `direccion` as clientedireccion, `poblacion` as clientepoblacion, `codigopostal` as clientecodigopostal,`identificador` as clienteidentificador,activo as clienteactivo
 	FROM `cliente`;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `clientegetById` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clientegetById`(IN pcodigo INT)
-BEGIN
-	SELECT`codigo`, `nombre`, `email`, `telefono`, `direccion`, `poblacion`, `codigopostal`,`identificador`, activo
+END$$
+
+DROP PROCEDURE IF EXISTS `clientegetById`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clientegetById` (IN `pcodigo` INT)  BEGIN
+	SELECT`codigo` as clientecodigo, `nombre` as clientenombre, `email` as clienteemail, `telefono` as clientetelefono, `direccion` as clientedireccion, `poblacion` as clientepoblacion, `codigopostal` as clientecodigopostal,`identificador` as clienteidentificador,activo as clienteactivo
 	FROM `cliente`
     WHERE codigo = pcodigo;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `clientegetByIdentificador` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clientegetByIdentificador`(in pidentificador varchar(15))
-BEGIN
-	SELECT`codigo`, `nombre`, `email`, `telefono`, `direccion`, `poblacion`, `codigopostal`,`identificador`, activo
+END$$
+
+DROP PROCEDURE IF EXISTS `clientegetByIdentificador`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clientegetByIdentificador` (IN `pidentificador` VARCHAR(15))  BEGIN
+	SELECT`codigo` as clientecodigo, `nombre` as clientenombre, `email` as clienteemail, `telefono` as clientetelefono, `direccion` as clientedireccion, `poblacion` as clientepoblacion, `codigopostal` as clientecodigopostal,`identificador` as clienteidentificador,activo as clienteactivo
 	FROM `cliente`
-    WHERE identificaro = pidentificador;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `clienteInforme` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteInforme`(in pcodigo INT)
-BEGIN
+    WHERE identificador = pidentificador;
+END$$
 
-	SELECT c.codigo, c.nombre, c.email, c.telefono, c.direccion, 
-			c.poblacion, c.codigopostal, c.identificador,c.activo,
-            cu.codigo as codigocurso,cu.nombre as nombrecurso,cu.identificador as idenficadorcurso,
-            cu.fInicio,cu.fFin,cu.nhoras,SUM(i.precio) as preciocurso
-    FROM cliente as c
-		LEFT JOIN curso as cu ON cu.cliente_codigo = c.codigo
-        INNER JOIN curso_modulo as cm ON cm.cuso_codigo = cu.codigo
-        INNER JOIN imparticion as i ON i.curso_modulo_codigo = cm.codigo_curso_modulo
-    WHERE c.codigo = pcodigo;
+DROP PROCEDURE IF EXISTS `clienteInforme`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteInforme` (IN `pcodigo` INT)  BEGIN
+SELECT c.`codigo` as clientecodigo, c.`nombre` as clientenombre, c.`email` as clienteemail, c.`telefono` as clientetelefono, c.`direccion` as clientedireccion, c.`poblacion` as clientepoblacion, `codigopostal` as clientecodigopostal,c.`identificador` as clienteidentificador,c.activo as clienteactivo, cu.codigo as cursocodigo,cu.nombre as cursonombre,cu.identificador as cursoidentificador, cu.fInicio as cursofinicio,cu.fFin as cursoffin,cu.nhoras as cursonhoras,cu.precio as cursoprecio FROM cliente as c LEFT JOIN curso as cu ON cu.cliente_codigo = c.codigo WHERE c.codigo = pcodigo;
+END$$
 
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `clienteUpdate` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteUpdate`(
-	in pcodigo int,
-    in pnombre varchar(150),
-    in pemail varchar(150),
-    in ptelefono int(9),
-    in pdirecion varchar(250),
-    in ppoblacion varchar(150),
-    in pcodigopostal int(5),
-    in pidentificador varchar(15)
-	)
-BEGIN
+DROP PROCEDURE IF EXISTS `clienteUpdate`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clienteUpdate` (IN `pcodigo` INT, IN `pnombre` VARCHAR(150), IN `pemail` VARCHAR(150), IN `ptelefono` INT(9), IN `pdirecion` VARCHAR(250), IN `ppoblacion` VARCHAR(150), IN `pcodigopostal` INT(5), IN `pidentificador` VARCHAR(15))  BEGIN
 UPDATE `cliente` 
 SET `codigo`=pcodigo,
 	`nombre`=pnombre,
@@ -592,56 +155,87 @@ SET `codigo`=pcodigo,
     `poblacion`=ppoblacion,
     `codigopostal`=pcodigopostal,
     `identificador`=pidentificador;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `profesorByDni` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorByDni`(in dni varchar(9))
+END$$
+
+DROP PROCEDURE IF EXISTS `cursocreate`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `cursocreate` (IN `pnombre` VARCHAR(50), IN `pidentificador` VARCHAR(50), IN `pfinicio` DATE, IN `pffin` DATE, IN `ptemario` VARCHAR(50), IN `pprecio` DOUBLE(8,2), IN `pcodigo_profesor` INT, IN `pcodigo_cliente` INT, OUT `pcodigo` INT)  NO SQL
 BEGIN
-	SELECT `codigo`, `NSS`, `nombre`, `apellidos`, `fNacimiento`, `DNI`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`,activo
+
+INSERT INTO curso(nombre,idenficador,fInicio,fFin,temario,precio,cliente_codigo,profesor_codigo)
+VALUES(LOWER(pnombre),LOWER(pidentificador),pfinicio,pffin,LOWER(ptemario),pprecio,pcodigo_profesor,pcodigo_cliente);
+SET pcodigo = LAST_INSERT_ID();
+
+END$$
+
+DROP PROCEDURE IF EXISTS `cursoDelete`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `cursoDelete` (IN `pcodigo` INT)  NO SQL
+BEGIN
+
+UPDATE curso SET activo = false
+WHERE codigo = pcodigo;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `cursogetAll`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `cursogetAll` ()  NO SQL
+BEGIN
+SELECT
+ c.`codigo` as cursocodigo, c.`nombre` as cursonombre, c.`identificador` as cursoidentificador, c.`fInicio` as cursofinicio, c.`fFin` as cursoffin, c.`nHoras` as cursonhoras, c.`temario` as cursotemario, c.`activo` as cursoactivo, c.`precio` as cursoprecio, 
+p.`codigo` as profesorcodigo, p.`NSS` as profesornss, p.`nombre` as profesornombre, p.`apellidos` as profesorapellidos, p.`fNacimiento` as profesorfnacimiento, p.`DNI` as profesordni, p.`direccion` as profesordireccion, p.`poblacion` as profesorpoblacion, p.`codigopostal` as profesorcodigopostal, p.`telefono` as profesortelefono, p.`email` as profesoremail,p.activo as profesoractivo, cli.codigo as clientecodigo, cli.`nombre` as clientenombre, cli.`email` as clienteemail, cli.`telefono` as clientetelefono, cli.identificador as clienteidentificador, cli.`direccion` as clientedireccion, cli.`poblacion` as clientepoblacion, cli.`codigopostal` as clientecodigopostal, cli.activo as clienteactivo
+FROM curso c
+	LEFT JOIN profesor p ON p.codigo = c.profesor_codigo
+  LEFT JOIN cliente cli ON cli.codigo = c.cliente_codigo;
+
+
+
+END$$
+
+DROP PROCEDURE IF EXISTS `cursogetById`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `cursogetById` (IN `pcodigo` INT)  NO SQL
+BEGIN
+SELECT
+ c.`codigo` as cursocodigo, c.`nombre` as cursonombre, c.`identificador` as cursoidentificador, c.`fInicio` as cursofinicio, c.`fFin` as cursoffin, c.`nHoras` as cursonhoras, c.`temario` as cursotemario, c.`activo` as cursoactivo, c.`precio` as cursoprecio, 
+p.`codigo` as profesorcodigo, p.`NSS` as profesornss, p.`nombre` as profesornombre, p.`apellidos` as profesorapellidos, p.`fNacimiento` as profesorfnacimiento, p.`DNI` as profesordni, p.`direccion` as profesordireccion, p.`poblacion` as profesorpoblacion, p.`codigopostal` as profesorcodigopostal, p.`telefono` as profesortelefono, p.`email` as profesoremail,p.activo as profesoractivo, cli.codigo as clientecodigo, cli.`nombre` as clientenombre, cli.`email` as clienteemail, cli.`telefono` as clientetelefono, cli.identificador as clienteidentificador, cli.`direccion` as clientedireccion, cli.`poblacion` as clientepoblacion, cli.`codigopostal` as clientecodigopostal, cli.activo as clienteactivo
+	FROM curso c
+      INNER JOIN cliente cli ON cli.codigo = c.cliente_codigo
+      INNER JOIN profesor p ON p.codigo = c.profesor_codigo
+      
+   WHERE c.codigo = pcodigo;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `cursogetByIdentificador`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `cursogetByIdentificador` (IN `pidentificador` VARCHAR(50))  NO SQL
+BEGIN
+SELECT
+ c.`codigo` as cursocodigo, c.`nombre` as cursonombre, c.`identificador` as cursoidentificador, c.`fInicio` as cursofinicio, c.`fFin` as cursoffin, c.`nHoras` as cursonhoras, c.`temario` as cursotemario, c.`activo` as cursoactivo, c.`precio` as cursoprecio, 
+p.`codigo` as profesorcodigo, p.`NSS` as profesornss, p.`nombre` as profesornombre, p.`apellidos` as profesorapellidos, p.`fNacimiento` as profesorfnacimiento, p.`DNI` as profesordni, p.`direccion` as profesordireccion, p.`poblacion` as profesorpoblacion, p.`codigopostal` as profesorcodigopostal, p.`telefono` as profesortelefono, p.`email` as profesoremail,p.activo as profesoractivo, cli.codigo as clientecodigo, cli.`nombre` as clientenombre, cli.`email` as clienteemail, cli.`telefono` as clientetelefono, cli.identificador as clienteidentificador, cli.`direccion` as clientedireccion, cli.`poblacion` as clientepoblacion, cli.`codigopostal` as clientecodigopostal, cli.activo as clienteactivo
+	FROM curso c
+      INNER JOIN cliente cli ON cli.codigo = c.cliente_codigo
+      INNER JOIN profesor p ON p.codigo = c.profesor_codigo
+      
+   WHERE c.identificador = pidentificador;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `cursoupdate`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `cursoupdate` (IN `pcodigo` INT, IN `pnombre` VARCHAR(50), IN `pidentificador` VARCHAR(50), IN `pfinicio` DATE, IN `pffin` DATE, IN `pnhoras` INT, IN `ptemario` VARCHAR(50), IN `pprecio` DOUBLE(8,2), IN `pcliente_codigo` INT, IN `pprofesor_codigo` INT)  NO SQL
+BEGIN
+
+UPDATE curso SET nombre = pnombre, identificador = pidentificador, fInicio = pfinicio, fFin = pffin, nHoras = phoras, temario = ptemario, precio = pprecio, cliente_codigo = pcliente_codigo, profesor_codigo = pprofesor_codigo
+WHERE codigo = pcodigo;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `profesorByDni`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorByDni` (IN `dni` VARCHAR(9))  BEGIN
+	SELECT `codigo` as profesorcodigo, `NSS` as profesornss, `nombre` as profesornombre, `apellidos` as profesorapellidos, `fNacimiento` as profesorfnacimiento, `DNI` as profesordni, `direccion` as profesordireccion, `poblacion` as profesorpoblacion, `codigopostal` as profesorcodigopostal, `telefono` as profesortelefono, `email` as profesoremail,activo as profesoractivo
 	FROM `profesor`
     WHERE dni = pdni;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `profesorCreate` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorCreate`(IN pnss VARCHAR(150),
-								IN pnombre varchar(150),
-								IN papellidos VARCHAR(250),
-                                IN pfNacimiento DATE,
-                                IN pdni VARCHAR(9),
-                                IN pdireccion VARCHAR(150),
-                                IN ppoblacion VARCHAR(150),
-                                IN pcodigopostal INT(5),
-                                IN ptelefono INT(9),
-                                IN pemail varchar(150),
-								out pcodigo INT
-                                )
-BEGIN
+END$$
+
+DROP PROCEDURE IF EXISTS `profesorCreate`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorCreate` (IN `pnss` VARCHAR(150), IN `pnombre` VARCHAR(150), IN `papellidos` VARCHAR(250), IN `pfNacimiento` DATE, IN `pdni` VARCHAR(9), IN `pdireccion` VARCHAR(150), IN `ppoblacion` VARCHAR(150), IN `pcodigopostal` INT(5), IN `ptelefono` INT(9), IN `pemail` VARCHAR(150), OUT `pcodigo` INT)  BEGIN
 	INSERT INTO `profesor` ( 
         `nombre`, 
         `apellidos`, 
@@ -667,121 +261,40 @@ BEGIN
         if pnss != '' THEN
 			update profesor set nss = pnss where codigo = pcodigo;
         END IF;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `profesorgetAll` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`admin`@`%` PROCEDURE `profesorgetAll`()
-    NO SQL
+END$$
+
+DROP PROCEDURE IF EXISTS `profesorgetAll`$$
+CREATE DEFINER=`admin`@`%` PROCEDURE `profesorgetAll` ()  NO SQL
 BEGIN
 
-	SELECT `codigo`, `NSS`, `nombre`, `apellidos`, `fNacimiento`, `DNI`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`,activo
+	SELECT `codigo` as profesorcodigo, `NSS` as profesornss, `nombre` as profesornombre, `apellidos` as profesorapellidos, `fNacimiento` as profesorfnacimiento, `DNI` as profesordni, `direccion` as profesordireccion, `poblacion` as profesorpoblacion, `codigopostal` as profesorcodigopostal, `telefono` as profesortelefono, `email` as profesoremail,activo as profesoractivo
 	FROM `profesor`;
 
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `profesorgetByDni` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorgetByDni`(IN pdni varchar(9))
-BEGIN
-	SELECT `codigo`, `NSS`, `nombre`, `apellidos`, `fNacimiento`, `DNI`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`,activo
+END$$
+
+DROP PROCEDURE IF EXISTS `profesorgetByDni`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorgetByDni` (IN `pdni` VARCHAR(9))  BEGIN
+	SELECT `codigo` as profesorcodigo, `NSS` as profesornss, `nombre` as profesornombre, `apellidos` as profesorapellidos, `fNacimiento` as profesorfnacimiento, `DNI` as profesordni, `direccion` as profesordireccion, `poblacion` as profesorpoblacion, `codigopostal` as profesorcodigopostal, `telefono` as profesortelefono, `email` as profesoremail,activo as profesoractivo
 	FROM `profesor`
     WHERE dni = pdni;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `profesorgetById` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorgetById`(IN pcodigo INT)
-BEGIN
-	SELECT `codigo`, `NSS`, `nombre`, `apellidos`, `fNacimiento`, `DNI`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`,activo
+END$$
+
+DROP PROCEDURE IF EXISTS `profesorgetById`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorgetById` (IN `pcodigo` INT)  BEGIN
+	SELECT `codigo` as profesorcodigo, `NSS` as profesornss, `nombre` as profesornombre, `apellidos` as profesorapellidos, `fNacimiento` as profesorfnacimiento, `DNI` as profesordni, `direccion` as profesordireccion, `poblacion` as profesorpoblacion, `codigopostal` as profesorcodigopostal, `telefono` as profesortelefono, `email` as profesoremail,activo as profesoractivo
 	FROM `profesor`
     WHERE codigo = pcodigo;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `profesorgetByNss` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorgetByNss`(in pnss varchar(12))
-BEGIN
-	SELECT `codigo`, `NSS`, `nombre`, `apellidos`, `fNacimiento`, `DNI`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`,activo
+END$$
+
+DROP PROCEDURE IF EXISTS `profesorgetByNss`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorgetByNss` (IN `pnss` VARCHAR(12))  BEGIN
+	SELECT `codigo` as profesorcodigo, `NSS` as profesornss, `nombre` as profesornombre, `apellidos` as profesorapellidos, `fNacimiento` as profesorfnacimiento, `DNI` as profesordni, `direccion` as profesordireccion, `poblacion` as profesorpoblacion, `codigopostal` as profesorcodigopostal, `telefono` as profesortelefono, `email` as profesoremail,activo as profesoractivo
 	FROM `profesor`
     WHERE nss = pnss;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `profesorUpdate` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_ALL_TABLES,NO_AUTO_CREATE_USER' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorUpdate`(
-	in pnss varchar(12),
-    in pnombre varchar(150),
-    in papellidos varchar(250),
-    in pfnacimiento date,
-    in pdni varchar(9),
-    in pdireccion varchar(250),
-    in ppoblacion varchar(150),
-    in pcodigopostal int(5),
-    in ptelefono int(9),
-    in pemail varchar(150)
-	)
-BEGIN
+END$$
+
+DROP PROCEDURE IF EXISTS `profesorUpdate`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `profesorUpdate` (IN `pnss` VARCHAR(12), IN `pnombre` VARCHAR(150), IN `papellidos` VARCHAR(250), IN `pfnacimiento` DATE, IN `pdni` VARCHAR(9), IN `pdireccion` VARCHAR(250), IN `ppoblacion` VARCHAR(150), IN `pcodigopostal` INT(5), IN `ptelefono` INT(9), IN `pemail` VARCHAR(150))  BEGIN
 
 UPDATE `profesor` 
 SET `NSS`=pnss,
@@ -797,20 +310,188 @@ SET `NSS`=pnss,
 WHERE codigo = pcodigo;
 
 
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+END$$
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `alumno`
+--
+
+DROP TABLE IF EXISTS `alumno`;
+CREATE TABLE IF NOT EXISTS `alumno` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT COMMENT 'el campo clave de la tabla. Es auto generado.',
+  `nombre` varchar(50) COLLATE utf8_bin NOT NULL,
+  `apellidos` varchar(250) COLLATE utf8_bin NOT NULL,
+  `fNacimiento` date DEFAULT NULL,
+  `direccion` varchar(250) COLLATE utf8_bin DEFAULT NULL,
+  `poblacion` varchar(150) COLLATE utf8_bin DEFAULT NULL,
+  `codigopostal` int(5) UNSIGNED ZEROFILL DEFAULT NULL,
+  `telefono` int(9) NOT NULL,
+  `email` varchar(150) COLLATE utf8_bin NOT NULL,
+  `dni` varchar(9) COLLATE utf8_bin NOT NULL,
+  `nHermanos` int(2) DEFAULT '0',
+  `activo` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`codigo`),
+  UNIQUE KEY `dni_UNIQUE` (`dni`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `alumno`
+--
+
+INSERT INTO `alumno` (`codigo`, `nombre`, `apellidos`, `fNacimiento`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`, `dni`, `nHermanos`, `activo`) VALUES
+(0, 'alumno', 'sin asignar', NULL, NULL, NULL, 00000, 0, 'aaaaaaa@aaaaa.com', '0000000x', 0, 0),
+(1, 'sergio', 'aparicio vargas', '1977-12-01', '', '', 00000, 944110293, 'aaaa@aaaa.com', '44974398z', 0, 1),
+(2, 'maite', 'monasterio', '1986-11-11', '', '', 48007, 944110293, 'mmonasterio@gmail.com', '16071559x', 0, 1),
+(4, 'enrique javier', 'ruiz jimenez', '2017-02-14', '', '', 00048, 944110239, 'enrique@gmail.com', '45677362y', 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cliente`
+--
+
+DROP TABLE IF EXISTS `cliente`;
+CREATE TABLE IF NOT EXISTS `cliente` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` text COLLATE utf8_bin NOT NULL,
+  `email` varchar(150) COLLATE utf8_bin NOT NULL,
+  `telefono` int(9) NOT NULL,
+  `direccion` varchar(250) COLLATE utf8_bin DEFAULT NULL,
+  `poblacion` varchar(150) COLLATE utf8_bin DEFAULT NULL,
+  `codigopostal` int(5) UNSIGNED ZEROFILL DEFAULT NULL,
+  `identificador` varchar(15) COLLATE utf8_bin NOT NULL,
+  `activo` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`codigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `cliente`
+--
+
+INSERT INTO `cliente` (`codigo`, `nombre`, `email`, `telefono`, `direccion`, `poblacion`, `codigopostal`, `identificador`, `activo`) VALUES
+(0, 'Sin Definir', 'aaaaaa@aaaaa.com', 9444, NULL, NULL, NULL, '#######', 0),
+(1, 'SERIKAT CONSULTORÍA E INFORMÁTICA, S.A.', 'info@serikat.es', 944250100, 'c/ Ercilla 19', 'Bilbao', 48009, 'A-48476006', 1),
+(2, 'lanbide - servicio vasco de empleo', 'info@lanbide.net', 945160601, 'Jose Atxotegi 1', 'Vitoria-Gazteiz', 01009, 'Q0100571l', 1),
+(3, 'hobetuz', 'bizkaia@hobetuz.eus', 944150808, 'gran vía, 35-6º', NULL, NULL, 'g48850127', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `curso`
+--
+
+DROP TABLE IF EXISTS `curso`;
+CREATE TABLE IF NOT EXISTS `curso` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) COLLATE utf8_bin NOT NULL,
+  `identificador` varchar(12) COLLATE utf8_bin NOT NULL,
+  `fInicio` date DEFAULT NULL,
+  `fFin` date DEFAULT NULL,
+  `nHoras` int(4) NOT NULL,
+  `temario` text COLLATE utf8_bin,
+  `activo` tinyint(4) DEFAULT '1',
+  `cliente_codigo` int(11) DEFAULT NULL,
+  `precio` double(8,2) DEFAULT '0.00',
+  `profesor_codigo` int(11) DEFAULT NULL,
+  PRIMARY KEY (`codigo`),
+  KEY `fk_curso_cliente_codigo_idx` (`cliente_codigo`),
+  KEY `fk_curso_profesor_codigo_idx` (`profesor_codigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `curso`
+--
+
+INSERT INTO `curso` (`codigo`, `nombre`, `identificador`, `fInicio`, `fFin`, `nHoras`, `temario`, `activo`, `cliente_codigo`, `precio`, `profesor_codigo`) VALUES
+(1, 'Desarrrollo de Aplicaciones con Tecnologias Web', '18482675', '2017-01-09', '2017-06-13', 510, NULL, 1, 2, 300000.00, 1),
+(2, 'Desarrollo de Bases de Datos y Programacion orientada a Objetos', '18488225', '2017-02-20', '2017-09-29', 630, 'IFCD0112_FIC.pdf', 1, 2, 400000.00, 1),
+(3, 'Publicidad en internet', '18482678', '2017-03-27', '2017-03-30', 10, NULL, 1, 3, 1500.00, 1),
+(4, 'Programación en Bases de Datos relaciones con Oracle 12c', 'CI67', '2017-05-02', '2017-05-30', 30, 'CI67.pdf', 1, 3, 3500.00, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `imparticion`
+--
+
+DROP TABLE IF EXISTS `imparticion`;
+CREATE TABLE IF NOT EXISTS `imparticion` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
+  `curso_codigo` int(11) NOT NULL,
+  `alumno_codigo` int(11) NOT NULL,
+  `fMatriculacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo`),
+  KEY `fk_imparticion_alumno_codigo_idx` (`alumno_codigo`),
+  KEY `fk_imparticion_curso_codigo_idx` (`curso_codigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `imparticion`
+--
+
+INSERT INTO `imparticion` (`codigo`, `curso_codigo`, `alumno_codigo`, `fMatriculacion`) VALUES
+(9, 3, 2, NULL),
+(10, 3, 4, NULL),
+(15, 2, 1, NULL),
+(16, 2, 2, NULL),
+(17, 2, 4, NULL),
+(48, 1, 1, NULL),
+(49, 1, 2, NULL),
+(50, 1, 4, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `profesor`
+--
+
+DROP TABLE IF EXISTS `profesor`;
+CREATE TABLE IF NOT EXISTS `profesor` (
+  `codigo` int(11) NOT NULL AUTO_INCREMENT,
+  `NSS` bigint(12) DEFAULT NULL,
+  `nombre` varchar(50) COLLATE utf8_bin NOT NULL,
+  `apellidos` varchar(250) COLLATE utf8_bin NOT NULL,
+  `fNacimiento` date DEFAULT NULL,
+  `DNI` varchar(9) COLLATE utf8_bin NOT NULL,
+  `direccion` varchar(250) COLLATE utf8_bin DEFAULT NULL,
+  `poblacion` varchar(150) COLLATE utf8_bin DEFAULT NULL,
+  `codigopostal` int(5) UNSIGNED ZEROFILL DEFAULT NULL,
+  `telefono` int(9) NOT NULL,
+  `email` varchar(150) COLLATE utf8_bin NOT NULL,
+  `activo` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`codigo`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `profesor`
+--
+
+INSERT INTO `profesor` (`codigo`, `NSS`, `nombre`, `apellidos`, `fNacimiento`, `DNI`, `direccion`, `poblacion`, `codigopostal`, `telefono`, `email`, `activo`) VALUES
+(0, 0, 'profesor', 'sin asignar', NULL, '00000000z', NULL, NULL, NULL, 0, 'aaaaaaaa@aaaaa.aaa', 0),
+(1, 481234567840, 'Urko', 'Villanueva Alvarez', '1976-11-24', '30693142x', 'Av. Mazustegi 9', 'Bilbao', 48009, 944110293, 'uvillanueva@ipartek.com', 1);
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `curso`
+--
+ALTER TABLE `curso`
+  ADD CONSTRAINT `fk_curso_cliente_codigo` FOREIGN KEY (`cliente_codigo`) REFERENCES `cliente` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_curso_profesor_codigo` FOREIGN KEY (`profesor_codigo`) REFERENCES `profesor` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `imparticion`
+--
+ALTER TABLE `imparticion`
+  ADD CONSTRAINT `fk_imparticion_alumno_codigo` FOREIGN KEY (`alumno_codigo`) REFERENCES `alumno` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_imparticion_curso_codigo` FOREIGN KEY (`curso_codigo`) REFERENCES `curso` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2017-02-21  9:52:15
