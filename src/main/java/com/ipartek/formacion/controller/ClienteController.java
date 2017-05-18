@@ -110,7 +110,7 @@ public class ClienteController {
 	}
 
 	@RequestMapping(value = "/getInforme/{codigo}")
-	public String getInforme(Model model, @PathVariable("codigo") int codigo) {
+	public String getInforme(Model model, @PathVariable("codigo") long codigo) {
 		LOGGER.info("codigo: " + codigo);
 		Cliente cliente = cS.getInforme(codigo);
 		LOGGER.info("cursos" + cliente.getCursos().size());

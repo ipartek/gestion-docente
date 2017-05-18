@@ -48,7 +48,7 @@ public class Alumno implements Comparable<Alumno>, Serializable {
 		this.codigoPostal = INICIALCODIGOPOSTAL;
 		this.activo = true;
 		this.nHermanos = 0;
-		cursos = null;
+		this.cursos = null;
 
 	}
 

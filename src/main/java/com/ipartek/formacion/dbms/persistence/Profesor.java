@@ -39,7 +39,6 @@ public class Profesor implements Comparable<Profesor>, Serializable {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Past(message = "Past.fNacimiento")
 	private Date fNacimiento;
-
 	@NotNull(message = "NotEmpty.email")
 	@NotBlank(message = "NotBlank.email")
 	@Email(message = "Email.email")
@@ -52,6 +51,7 @@ public class Profesor implements Comparable<Profesor>, Serializable {
 	@Phone(message = "Phone.telefono")
 	private String telefono;
 	private boolean activo;
+	private String fullName;
 
 	public Profesor() {
 		super();
@@ -67,6 +67,7 @@ public class Profesor implements Comparable<Profesor>, Serializable {
 		this.codigoPostal = 48;
 		this.nSS = "";
 		this.activo = true;
+		this.fullName = this.nombre + " " + this.apellidos;
 	}
 
 	public String getnSS() {
@@ -282,6 +283,21 @@ public class Profesor implements Comparable<Profesor>, Serializable {
 	 */
 	public void setActivo(boolean activo) {
 		this.activo = activo;
+	}
+
+	/**
+	 * @return the fullName
+	 */
+	public String getFullName() {
+		return fullName;
+	}
+
+	/**
+	 * @param fullName
+	 *            the fullName to set
+	 */
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 }

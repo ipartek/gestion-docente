@@ -13,16 +13,17 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import com.ipartek.formacion.dbms.persistence.Cliente;
 import com.ipartek.formacion.dbms.persistence.Curso;
 
-public class ClienteExtractor implements ResultSetExtractor<Map<Integer, Cliente>> {
+public class ClienteExtractor implements ResultSetExtractor<Map<Long, Cliente>> {
 	private final static Logger LOGGER = LoggerFactory.getLogger(ClienteExtractor.class);
 
 	@Override
-	public Map<Integer, Cliente> extractData(ResultSet rs) throws SQLException, DataAccessException {
-		Map<Integer, Cliente> clientes = new HashMap<Integer, Cliente>();
+	public Map<Long, Cliente> extractData(ResultSet rs) throws SQLException, DataAccessException {
+		Map<Long, Cliente> clientes = new HashMap<Long, Cliente>();
 		// Map<Long, Curso> cursos = null;
 		while (rs.next()) {
 			// recogemos el codigo de cliente
-			int codigo = rs.getInt("clientecodigo");
+			Long codigo = rs.getLong("clientecodigo");
+			LOGGER.info("rs:" + codigo);
 			// recogemos el cliente del mapa
 			Cliente cliente = clientes.get(codigo);
 
@@ -37,8 +38,8 @@ public class ClienteExtractor implements ResultSetExtractor<Map<Integer, Cliente
 				cliente.setTelefono(String.valueOf(rs.getInt("clientetelefono")));
 				cliente.setActivo(rs.getBoolean("clienteactivo"));
 				cliente.setCodigo(rs.getInt("clientecodigo"));
-				// cliente.setCursos();
-				clientes.put(cliente.getCodigo(), cliente);
+
+				clientes.put(codigo, cliente);
 			}
 			// aqui es donde cargamos el mapa de cursos
 			// cursos = cliente.getCursos();
@@ -54,8 +55,9 @@ public class ClienteExtractor implements ResultSetExtractor<Map<Integer, Cliente
 				cliente.getCursos().put(cCurso, curso);
 			}
 			LOGGER.info("nº cursos2: " + cliente.getCursos().size());
+			// clientes.put(cliente.getCodigo(), cliente);
 		}
-
+		LOGGER.info("Size" + clientes.size());
 		return clientes;
 	}
 

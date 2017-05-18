@@ -45,7 +45,7 @@ public class ClienteServiceImp implements ClienteService {
 	}
 
 	@Override
-	public void delete(int codigo) {
+	public void delete(long codigo) {
 		clienteDao.delete(codigo);
 	}
 
@@ -55,7 +55,7 @@ public class ClienteServiceImp implements ClienteService {
 	}
 
 	@Override
-	public Cliente getInforme(int codigo) {
+	public Cliente getInforme(long codigo) {
 		Cliente cliente = clienteDao.getInforme(codigo);
 		LOGGER.info("descripcion:" + cliente.toString());
 		return cliente;

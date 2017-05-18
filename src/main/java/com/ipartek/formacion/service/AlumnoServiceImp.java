@@ -58,7 +58,7 @@ public class AlumnoServiceImp implements AlumnoService {
 	}
 
 	@Override
-	public Alumno getInforme(int codigo) {
+	public Alumno getInforme(long codigo) {
 		return alumnoDao.getInforme(codigo);
 	}
 

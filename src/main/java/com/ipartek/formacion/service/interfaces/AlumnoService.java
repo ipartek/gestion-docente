@@ -18,6 +18,6 @@ public interface AlumnoService {
 
 	public Alumno getByDni(String dni);
 
-	public Alumno getInforme(int codigo);
+	public Alumno getInforme(long codigo);
 
 }

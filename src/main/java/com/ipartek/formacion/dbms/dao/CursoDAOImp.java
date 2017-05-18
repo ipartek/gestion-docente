@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import com.ipartek.formacion.dbms.dao.interfaces.CursoDAO;
+import com.ipartek.formacion.dbms.mappers.CursoExtractor;
 import com.ipartek.formacion.dbms.mappers.CursoMapper;
 import com.ipartek.formacion.dbms.persistence.Curso;
 
@@ -57,7 +58,7 @@ public class CursoDAOImp implements CursoDAO {
 		Curso curso = null;
 		final String SQL = "CALL cursogetById(?);";
 		try {
-			curso = jdbctemplate.queryForObject(SQL, new CursoMapper(), new Object[] { codigo });
+			curso = jdbctemplate.query(SQL, new CursoExtractor(), new Object[] { codigo }).get(codigo);
 			LOGGER.info(curso.toString());
 		} catch (EmptyResultDataAccessException e) {
 			curso = null;

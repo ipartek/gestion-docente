@@ -1,7 +1,6 @@
 package com.ipartek.formacion.dbms.persistence;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Cliente implements Serializable {
@@ -33,7 +32,7 @@ public class Cliente implements Serializable {
 		this.telefono = "";
 		this.identificador = "";
 		this.activo = true;
-		cursos = new HashMap<Long, Curso>();
+		this.cursos = null;
 	}
 
 	/**

@@ -156,7 +156,10 @@ public class AlumnoDAOImp implements AlumnoDAO {
 		Alumno alumno = null;
 		final String SQL = "CALL alumnoInforme(?)";
 		try {
-			alumno = jdbctemplate.query(SQL, new AlumnoExtractor(), new Object[] { codigo }).get(codigo);
+			Map<Long, Alumno> alumnos = jdbctemplate.query(SQL, new AlumnoExtractor(), new Object[] { codigo });
+			LOGGER.info("" + alumnos.size());
+			alumno = alumnos.get(codigo);
+			LOGGER.info(alumno.toString());
 		} catch (EmptyResultDataAccessException e) {
 			LOGGER.info("No se ha encontrado Alumno para el codigo: " + codigo + " " + e.getMessage());
 		}

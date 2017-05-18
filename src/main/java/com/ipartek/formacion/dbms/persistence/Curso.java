@@ -1,6 +1,7 @@
 package com.ipartek.formacion.dbms.persistence;
 
 import java.util.Date;
+import java.util.List;
 
 public class Curso {
 
@@ -18,6 +19,7 @@ public class Curso {
 	private Cliente cliente;
 	private Profesor profesor;
 	private boolean activo;
+	private List<Imparticion> imparticiones;
 
 	public Curso() {
 		super();
@@ -200,6 +202,21 @@ public class Curso {
 	 */
 	public void setActivo(boolean activo) {
 		this.activo = activo;
+	}
+
+	/**
+	 * @return the imparticiones
+	 */
+	public List<Imparticion> getImparticiones() {
+		return imparticiones;
+	}
+
+	/**
+	 * @param imparticiones
+	 *            the imparticiones to set
+	 */
+	public void setImparticiones(List<Imparticion> imparticiones) {
+		this.imparticiones = imparticiones;
 	}
 
 }

@@ -13,10 +13,10 @@ public interface ClienteService {
 
 	public Cliente update(Cliente cliente);
 
-	public void delete(int codigo);
+	public void delete(long codigo);
 
 	public Cliente getByIdentificador(String identificador);
 
-	public Cliente getInforme(int codigo);
+	public Cliente getInforme(long codigo);
 
 }

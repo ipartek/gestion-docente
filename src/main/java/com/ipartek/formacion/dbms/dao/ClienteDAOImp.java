@@ -124,12 +124,13 @@ public class ClienteDAOImp implements ClienteDAO {
 	}
 
 	@Override
-	public Cliente getInforme(int codigo) {
+	public Cliente getInforme(long codigo) {
 		final String SQL = "CALL clienteInforme(?);";
 		Cliente cliente = null;
 		try {
-			LOGGER.info("codigo:" + codigo);
-			Map<Integer, Cliente> clientes = jdbctemplate.query(SQL, new ClienteExtractor(), new Object[] { codigo });
+			LOGGER.info("getInforme codigo:" + codigo);
+			Map<Long, Cliente> clientes = jdbctemplate.query(SQL, new ClienteExtractor(), new Object[] { codigo });
+			LOGGER.info("tamaño" + clientes.size());
 			cliente = clientes.get(codigo);
 			LOGGER.info("cliente:" + cliente.toString());
 		} catch (EmptyResultDataAccessException e) {

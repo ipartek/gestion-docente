@@ -96,16 +96,6 @@
 		            </div>
 		            <form:errors cssClass="text-error"  path="cliente"/>   
 				</div>
-				<div class="form-group" style="display: none;">
-					<form:label cssClass="control-label col-xs-2" path="imparticiones">Alumnos:</form:label>
-					<c:forEach var="imparticion" items="${curso.imparticiones}">
-						<c:set var="fullName" value="${imparticion.alumno.nombre} ${imparticion.alumno.apellidos}"/>
-						<form:checkbox checked="ckecked" value="${imparticion.codigo}" label="${fullName}" path="imparticiones" />
-										
-					</c:forEach>
-					
-					
-				</div>
 
 				<div class="form-group">
 					<div class="col-md-offset-3">
