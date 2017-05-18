@@ -38,7 +38,7 @@ public class ClienteExtractor implements ResultSetExtractor<Map<Long, Cliente>> 
 				cliente.setTelefono(String.valueOf(rs.getInt("clientetelefono")));
 				cliente.setActivo(rs.getBoolean("clienteactivo"));
 				cliente.setCodigo(rs.getInt("clientecodigo"));
-
+				cliente.setCursos(new HashMap<Long, Curso>());
 				clientes.put(codigo, cliente);
 			}
 			// aqui es donde cargamos el mapa de cursos
