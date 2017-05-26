@@ -140,9 +140,9 @@ public class AlumnoDAOImp implements AlumnoDAO {
 	@Override
 	public Alumno getByDni(String dni) {
 		Alumno alumno = null;
-		sqlReadbydni = "call " + sqlReadbydni + "(?);";
+		String SQL = "call " + sqlReadbydni + "(?);";
 		try {
-			alumno = jdbctemplate.queryForObject(sqlReadbydni, new AlumnoMapper(), new Object[] { dni });
+			alumno = jdbctemplate.queryForObject(SQL, new AlumnoMapper(), new Object[] { dni });
 			LOGGER.info(alumno.toString());
 		} catch (EmptyResultDataAccessException e) {
 			alumno = null;

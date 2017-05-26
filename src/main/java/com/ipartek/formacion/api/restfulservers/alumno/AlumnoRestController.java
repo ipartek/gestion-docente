@@ -91,20 +91,18 @@ public class AlumnoRestController {
 
 	@RequestMapping(method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Void> create(@Valid @RequestBody Alumno alumno, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<Integer> create(@RequestBody Alumno alumno, UriComponentsBuilder ucBuilder) {
 		Alumno alum = aS.getByDni(alumno.getDni());
-		ResponseEntity<Void> response = null;
+		ResponseEntity<Integer> response = null;
 
 		if (alum != null) {
-			response = new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			response = new ResponseEntity<Integer>(0,HttpStatus.CONFLICT);
 		} else {
 			try {
 				Alumno aux = aS.create(alumno);
-				HttpHeaders headers = new HttpHeaders();
-				headers.setLocation(ucBuilder.path("/api/alumnos/{codigo}").buildAndExpand(aux.getCodigo()).toUri());
-				response = new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+				response = new ResponseEntity<Integer>(aux.getCodigo(), HttpStatus.CREATED);
 			} catch (Exception e) {
-				response = new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+				response = new ResponseEntity<Integer>(-1, HttpStatus.NOT_ACCEPTABLE);
 
 			}
 			// Si no reciclase el metodo getById la respuesta es <Alumno>
